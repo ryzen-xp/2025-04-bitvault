@@ -179,7 +179,6 @@ We would also like to know if changing configurational values after deployment c
 | Role          | Description           |
 |--------------|----------------------|
 | Owner        | Will be isolated in a 7/8 multisig |
-| Administrator | Can change fees       |
 
 
 ## Describe any novel or unique curve logic or mathematical models implemented in the contracts:
