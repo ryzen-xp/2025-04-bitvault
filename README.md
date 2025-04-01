@@ -3,7 +3,7 @@
   - HM awards: up to $10,500 USDC 
     - If no valid Highs or Mediums are found, the HM pool is $0 
   - Judge awards: $2,500 in USDC
-  - Validator awards: $1,500 USDC (Notion: Triage fee - final)
+  - Validator awards: $1,500 USDC 
   - Scout awards: $500 in USDC
 - [Read our guidelines for more details](https://docs.code4rena.com/roles/wardens)
 - Starts April 1, 2025 20:00 UTC
@@ -21,107 +21,128 @@ As such, wardens are encouraged to select the appropriate risk level carefully d
 
 The 4naly3er report can be found [here](https://github.com/code-423n4/2025-04-bitvault/blob/main/4naly3er-report.md).
 
-
-
 _Note for C4 wardens: Anything included in this `Automated Findings / Publicly Known Issues` section is considered a publicly known issue and is ineligible for awards._
 
-The owners keys could get compromised. Any key management is out of scope.
-Chainlink oracle could be compromised / faulty which would also be out of scope
+### Out-of-Scope Considerations
 
-✅ SCOUTS: Please format the response above 👆 so its not a wall of text and its readable.
+- The owner's keys could get compromised. Any key management is **out of scope**.
+- The Chainlink oracle could be compromised or faulty, which would also be **out of scope**.
+
+
+### Publicly Known Issues
+
+Any issues that have been marked as acknowledged in the original forked repository of `Popcorn-Limited/bvusd` as well as `liquity/bold` should be considered out-of-scope. Specifically:
+
+- Any public issue in the [Liquity repository](https://github.com/liquity/bold/issues), including [`wontfix` issues](https://github.com/liquity/bold/issues?q=label%3Awontfix+)
+- [Any known issue in the `bvusd` repository](https://github.com/Popcorn-Limited/bvusd/blob/main/README.md#known-issues-and-mitigations)
+
+
+If the impact of a previously acknowledged issue has been escalated adequately due to the delta introduced by the BitVault team, it may be considered in-scope for the contest.
 
 # Overview
 
-[ ⭐️ SPONSORS: add info here ]
+The code of the BitVault project is a Liquity V2 fork introducing the following features:
+
+- Dynamic Collateral Registry
+- Whitelist Enforcement
+- Configurable Collateral Ratios & Liquidation Configurations
+- Shutdown Capability for Protocol Token Owner
 
 ## Links
 
 - **Previous audits:**  
-  - ✅ SCOUTS: If there are multiple report links, please format them in a list.
+-- [ChainSecurity Audit Report](https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FE2A1Xrcj7XasxOiotWky%2Fuploads%2F7ELJ5yuvXnUtgd9NQPHk%2FChainSecurity_Liquity_Bold_audit.pdf?alt=media&token=eb681c56-e650-499b-aaca-7099823e08c4)
+-- [Coinspect Audit Report](https://www.coinspect.com/doc/Coinspect%20-%20Smart%20Contract%20Audit%20-%20Liquity%20-%20Bold%20-%20v241231.pdf)
+-- [Dedaub Audit Report Round I](https://dedaub.com/audits/liquity/liquity-v2-aug-28-2024/)
+-- [Dedaub Audit Report Round II](https://dedaub.com/audits/liquity/liquity-v2-second-audit-nov-11-2024/)
 - **Documentation:** https://github.com/Popcorn-Limited/bvusd/blob/main/README.md
 - **Website:** https://www.bitvault.finance/
 - **X/Twitter:** https://x.com/BitVaultFinance
-  
+
 ---
 
 # Scope
 
-[ ✅ SCOUTS: add scoping and technical details here ]
-
 ### Files in scope
-- ✅ This should be completed using the `metrics.md` file
-- ✅ Last row of the table should be Total: SLOC
-- ✅ SCOUTS: Have the sponsor review and and confirm in text the details in the section titled "Scoping Q amp; A"
 
-*For sponsors that don't use the scoping tool: list all files in scope in the table below (along with hyperlinks) -- and feel free to add notes to emphasize areas of focus.*
+*See [scope.txt](https://github.com/code-423n4/2025-04-bitvault/blob/main/scope.txt)*
 
-| Contract | SLOC | Purpose | Libraries used |  
-| ----------- | ----------- | ----------- | ----------- |
-| [contracts/folder/sample.sol](https://github.com/code-423n4/repo-name/blob/contracts/folder/sample.sol) | 123 | This contract does XYZ | [`@openzeppelin/*`](https://openzeppelin.com/contracts/) |
+| File   | nSLOC | 
+| ------ | ----- |
+| [contracts/src/CollateralRegistry.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/CollateralRegistry.sol) | 202 |
+| [contracts/src/StabilityPool.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/StabilityPool.sol) | 308 |
+| [contracts/src/BorrowerOperations.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/BorrowerOperations.sol) |  1102 |
+| [contracts/src/AddressesRegistry.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/AddressesRegistry.sol) |  193 |
+| [contracts/src/TroveManager.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/TroveManager.sol) | 1397 | 
+| [contracts/src/Dependencies/LiquityBase.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/Dependencies/LiquityBase.sol) | 67 | 
+| **Totals** |  **3269** |
 
 ### Files out of scope
-✅ SCOUTS: List files/directories out of scope
+
+*See [out_of_scope.txt](https://github.com/code-423n4/2025-04-bitvault/blob/main/out_of_scope.txt)*
+
+| File / Path        |
+| ------------ |
+| [contracts/src/ActivePool.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/ActivePool.sol) |
+| [contracts/src/BoldToken.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/BoldToken.sol) |
+| [contracts/src/CollSurplusPool.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/CollSurplusPool.sol) |
+| [contracts/src/DefaultPool.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/DefaultPool.sol) |
+| [contracts/src/MultiTroveGetter.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/MultiTroveGetter.sol) |
+| [contracts/src/GasPool.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/GasPool.sol) |
+| [contracts/src/HintHelpers.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/HintHelpers.sol) |
+| [contracts/src/SortedTroves.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/SortedTroves.sol) |
+| [contracts/src/TroveNFT.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/TroveNFT.sol) |
+| [contracts/src/Dependencies/AddRemoveManagers.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/Dependencies/AddRemoveManagers.sol) |
+| [contracts/src/Dependencies/AggregatorV3Interface.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/Dependencies/AggregatorV3Interface.sol) |
+| [contracts/src/Dependencies/Constants.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/Dependencies/Constants.sol) |
+| [contracts/src/Dependencies/IOsTokenVaultController.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/Dependencies/IOsTokenVaultController.sol) |
+| [contracts/src/Dependencies/IStaderOracle.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/Dependencies/IStaderOracle.sol) |
+| [contracts/src/Dependencies/LiquityMath.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/Dependencies/LiquityMath.sol) |
+| [contracts/src/Dependencies/Ownable.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/Dependencies/Ownable.sol) |
+| [contracts/src/Dependencies/Owned.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/Dependencies/Owned.sol) |
+| [contracts/src/Dependencies/TokenWrapper.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/Dependencies/TokenWrapper.sol) |
+| [contracts/src/Dependencies/Whitelist.sol](https://github.com/code-423n4/2025-04-bitvault/blob/main/contracts/src/Dependencies/Whitelist.sol) |
+| [contracts/certora/\*\*.\*\*](https://github.com/code-423n4/2025-04-bitvault/tree/main/contracts/certora) |
+| [contracts/script/\*\*.\*\*](https://github.com/code-423n4/2025-04-bitvault/tree/main/contracts/script) |
+| [contracts/src/Interfaces/\*\*.\*\*](https://github.com/code-423n4/2025-04-bitvault/tree/main/contracts/src/Interfaces)|
+| [contracts/src/NFTMetadata/\*\*.\*\*](https://github.com/code-423n4/2025-04-bitvault/tree/main/contracts/src/NFTMetadata) |
+| [contracts/src/PriceFeeds/\*\*.\*\*](https://github.com/code-423n4/2025-04-bitvault/tree/main/contracts/src/PriceFeeds) |
+| [contracts/src/Types/\*\*.\*\*](https://github.com/code-423n4/2025-04-bitvault/tree/main/contracts/src/Types) |
+| [contracts/src/Zappers/\*\*.\*\*](https://github.com/code-423n4/2025-04-bitvault/tree/main/contracts/src/Zappers) |
+| [contracts/test/\*\*.\*\*](https://github.com/code-423n4/2025-04-bitvault/tree/main/contracts/test) |
 
 ## Scoping Q &amp; A
 
-### General questions
-### Are there any ERC20's in scope?: Yes
-
-✅ SCOUTS: If the answer above 👆 is "Yes", please add the tokens below 👇 to the table. Otherwise, update the column with "None".
-
-Specific tokens (please specify)
-WBTC, WETH
-
-### Are there any ERC777's in scope?: No
-
-✅ SCOUTS: If the answer above 👆 is "Yes", please add the tokens below 👇 to the table. Otherwise, update the column with "None".
-
-
-
-### Are there any ERC721's in scope?: No
-
-✅ SCOUTS: If the answer above 👆 is "Yes", please add the tokens below 👇 to the table. Otherwise, update the column with "None".
-
-
-
-### Are there any ERC1155's in scope?: No
-
-✅ SCOUTS: If the answer above 👆 is "Yes", please add the tokens below 👇 to the table. Otherwise, update the column with "None".
-
-
-
-✅ SCOUTS: Once done populating the table below, please remove all the Q/A data above.
-
 | Question                                | Answer                       |
 | --------------------------------------- | ---------------------------- |
-| ERC20 used by the protocol              |       🖊️             |
-| Test coverage                           | ✅ SCOUTS: Please populate this after running the test coverage command                          |
-| ERC721 used  by the protocol            |            🖊️              |
-| ERC777 used by the protocol             |           🖊️                |
-| ERC1155 used by the protocol            |              🖊️            |
-| Chains the protocol will be deployed on | Arbitrum,Ethereum,Optimism |
+| ERC20 used by the protocol              |      WBTC, WETH             |
+| Test coverage                           | 99% (% Lines), 98.5% (% Functions)                          |
+| ERC721 used  by the protocol            |            None              |
+| ERC777 used by the protocol             |           None                |
+| ERC1155 used by the protocol            |              None            |
+| Chains the protocol will be deployed on | Arbitrum, Ethereum, Optimism |
 
 ### ERC20 token behaviors in scope
 
 | Question                                                                                                                                                   | Answer |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| [Missing return values](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#missing-return-values)                                                      |    |
-| [Fee on transfer](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#fee-on-transfer)                                                                  |   |
-| [Balance changes outside of transfers](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#balance-modifications-outside-of-transfers-rebasingairdrops) |    |
-| [Upgradeability](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#upgradable-tokens)                                                                 |    |
-| [Flash minting](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#flash-mintable-tokens)                                                              |    |
-| [Pausability](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#pausable-tokens)                                                                      |    |
-| [Approval race protections](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#approval-race-protections)                                              |    |
-| [Revert on approval to zero address](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#revert-on-approval-to-zero-address)                            |    |
-| [Revert on zero value approvals](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#revert-on-zero-value-approvals)                                    |    |
-| [Revert on zero value transfers](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#revert-on-zero-value-transfers)                                    |    |
-| [Revert on transfer to the zero address](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#revert-on-transfer-to-the-zero-address)                    |    |
-| [Revert on large approvals and/or transfers](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#revert-on-large-approvals--transfers)                  |    |
-| [Doesn't revert on failure](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#no-revert-on-failure)                                                   |    |
-| [Multiple token addresses](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#revert-on-zero-value-transfers)                                          |    |
-| [Low decimals ( < 6)](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#low-decimals)                                                                 |    |
-| [High decimals ( > 18)](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#high-decimals)                                                              |    |
-| [Blocklists](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#tokens-with-blocklists)                                                                |    |
+| [Missing return values](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#missing-return-values)                                                      |  No  |
+| [Fee on transfer](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#fee-on-transfer)                                                                  |  No |
+| [Balance changes outside of transfers](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#balance-modifications-outside-of-transfers-rebasingairdrops) |  No  |
+| [Upgradeability](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#upgradable-tokens)                                                                 |  No  |
+| [Flash minting](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#flash-mintable-tokens)                                                              |  No  |
+| [Pausability](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#pausable-tokens)                                                                      |  No  |
+| [Approval race protections](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#approval-race-protections)                                              |  No  |
+| [Revert on approval to zero address](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#revert-on-approval-to-zero-address)                            | No   |
+| [Revert on zero value approvals](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#revert-on-zero-value-approvals)                                    |  No  |
+| [Revert on zero value transfers](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#revert-on-zero-value-transfers)                                    |  No  |
+| [Revert on transfer to the zero address](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#revert-on-transfer-to-the-zero-address)                    |  No  |
+| [Revert on large approvals and/or transfers](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#revert-on-large-approvals--transfers)                  |  No  |
+| [Doesn't revert on failure](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#no-revert-on-failure)                                                   |  No  |
+| [Multiple token addresses](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#revert-on-zero-value-transfers)                                          |  No  |
+| [Low decimals ( < 6)](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#low-decimals)                                                                 |   No |
+| [High decimals ( > 18)](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#high-decimals)                                                              |  No  |
+| [Blocklists](https://github.com/d-xo/weird-erc20?tab=readme-ov-file#tokens-with-blocklists)                                                                |  No  |
 
 ### External integrations (e.g., Uniswap) behavior in scope:
 
@@ -134,324 +155,85 @@ WBTC, WETH
 
 
 ### EIP compliance checklist
+
 N/A
-
-✅ SCOUTS: Please format the response above 👆 using the template below👇
-
-| Question                                | Answer                       |
-| --------------------------------------- | ---------------------------- |
-| src/Token.sol                           | ERC20, ERC721                |
-| src/NFT.sol                             | ERC721                       |
 
 
 # Additional context
 
 ## Main invariants
 
-N/A
-
-✅ SCOUTS: Please format the response above 👆 so its not a wall of text and its readable.
+Any invariants outlined in the original `Popcorn-Limited/bvusd` and `liquity/bold` are considered to be inherited by the BitVault implementation.
 
 ## Attack ideas (where to focus for bugs)
-The biggest questions are if whitelists can be circumvented somehow or if whitelist additions could brick the original logic.
-We would also like to know if changing values after deployment could case any issues (not economic issues but actual code / state issues)
 
-✅ SCOUTS: Please format the response above 👆 so its not a wall of text and its readable.
+The main questions that are of concern are: 
+
+  - Can whitelists be circumvented somehow? 
+  - Could whitelist additions brick the original logic in any way?
+
+We would also like to know if changing configurational values after deployment could cause any issues. In detail, we are not interested in economic issues due to a misconfiguration but rather actual code / state issues such as the code not being able to handle a variable update.
 
 ## All trusted roles in the protocol
 
-We have an owner which will be isolated 7/8 multisigs.
+| Role          | Description           |
+|--------------|----------------------|
+| Owner        | Will be isolated in a 7/8 multisig |
 
-✅ SCOUTS: Please format the response above 👆 using the template below👇
-
-| Role                                | Description                       |
-| --------------------------------------- | ---------------------------- |
-| Owner                          | Has superpowers                |
-| Administrator                             | Can change fees                       |
 
 ## Describe any novel or unique curve logic or mathematical models implemented in the contracts:
 
 N/A
 
-✅ SCOUTS: Please format the response above 👆 so its not a wall of text and its readable.
-
 ## Running tests
 
-foundryup
+To setup the project, make sure you have `foundry` installed and then execute:
+
+```bash 
+git clone https://github.com/code-423n4/2025-04-bitvault
+cd 2025-04-bitvault/contracts
 forge install
+```
+
+To run tests:
+
+```bash 
 forge test
-
-✅ SCOUTS: Please format the response above 👆 using the template below👇
-
-```bash
-git clone https://github.com/code-423n4/2023-08-arbitrum
-git submodule update --init --recursive
-cd governance
-foundryup
-make install
-make build
-make sc-election-test
-```
-To run code coverage
-```bash
-make coverage
-```
-To run gas benchmarks
-```bash
-make gas
 ```
 
-✅ SCOUTS: Add a screenshot of your terminal showing the gas report
-✅ SCOUTS: Add a screenshot of your terminal showing the test coverage
+To run code coverage:
 
+```bash
+sudo apt-get install lcov
 
-# Scope
+forge coverage --report lcov
+lcov --remove lcov.info 'test/*' 'script/*' -o lcov_filtered.info
 
-*See [scope.txt](https://github.com/code-423n4/2025-04-bitvault/blob/main/scope.txt)*
+lcov --extract lcov_filtered.info \
+  "src/CollateralRegistry.sol" \
+  "src/StabilityPool.sol" \
+  "src/BorrowerOperations.sol" \
+  "src/AddressesRegistry.sol" \
+  "src/Dependencies/LiquityBase.sol" \
+  "src/TroveManager.sol" \
+  -o lcov_scope.info
 
-### Files in scope
+lcov --list lcov_scope.info
+```
 
+### Coverage Report
 
-| File   | Logic Contracts | Interfaces | nSLOC | Purpose | Libraries used |
-| ------ | --------------- | ---------- | ----- | -----   | ------------ |
-| /contracts/src/CollateralRegistry.sol | 1| **** | 202 | |openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol|
-| /contracts/src/StabilityPool.sol | 1| **** | 308 | |openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol|
-| /contracts/src/BorrowerOperations.sol | 1| **** | 1102 | |openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol|
-| /contracts/src/AddressesRegistry.sol | 1| **** | 193 | ||
-| /contracts/src/Dependencies/LiquityBase.sol | 1| **** | 67 | ||
-| /contracts/src/TroveManager.sol | 1| **** | 1397 | ||
-| **Totals** | **6** | **** | **3269** | | |
-
-### Files out of scope
-
-*See [out_of_scope.txt](https://github.com/code-423n4/2025-04-bitvault/blob/main/out_of_scope.txt)*
-
-| File         |
-| ------------ |
-| ./contracts/certora/harnesses/ERC20Like/DummyERC20A.sol |
-| ./contracts/certora/harnesses/ERC20Like/DummyERC20B.sol |
-| ./contracts/certora/harnesses/ERC20Like/DummyWeth.sol |
-| ./contracts/certora/harnesses/TroveManagerHarness.sol |
-| ./contracts/certora/harnesses/Utilities.sol |
-| ./contracts/script/Dependencies/GovernanceProxy.sol |
-| ./contracts/script/DeployGovernance.s.sol |
-| ./contracts/script/DeployOnlyExchangeHelpers.s.sol |
-| ./contracts/script/DeploySomeCurvePools.s.sol |
-| ./contracts/script/GenerateStakingRewards.s.sol |
-| ./contracts/script/Interfaces/Balancer/IVault.sol |
-| ./contracts/script/Interfaces/Balancer/IWeightedPool.sol |
-| ./contracts/script/LiquidateTrove.s.sol |
-| ./contracts/script/OpenTroves.s.sol |
-| ./contracts/script/ProvideCurveLiquidity.s.sol |
-| ./contracts/script/ProvideUniV3Liquidity.s.sol |
-| ./contracts/script/RedeemCollateral.s.sol |
-| ./contracts/script/RedeployWETHZappers.s.sol |
-| ./contracts/src/ActivePool.sol |
-| ./contracts/src/BoldToken.sol |
-| ./contracts/src/CollSurplusPool.sol |
-| ./contracts/src/DefaultPool.sol |
-| ./contracts/src/Dependencies/AddRemoveManagers.sol |
-| ./contracts/src/Dependencies/AggregatorV3Interface.sol |
-| ./contracts/src/Dependencies/Constants.sol |
-| ./contracts/src/Dependencies/IOsTokenVaultController.sol |
-| ./contracts/src/Dependencies/IStaderOracle.sol |
-| ./contracts/src/Dependencies/LiquityMath.sol |
-| ./contracts/src/Dependencies/Ownable.sol |
-| ./contracts/src/Dependencies/Owned.sol |
-| ./contracts/src/Dependencies/TokenWrapper.sol |
-| ./contracts/src/Dependencies/Whitelist.sol |
-| ./contracts/src/GasPool.sol |
-| ./contracts/src/HintHelpers.sol |
-| ./contracts/src/Interfaces/IActivePool.sol |
-| ./contracts/src/Interfaces/IAddRemoveManagers.sol |
-| ./contracts/src/Interfaces/IAddressesRegistry.sol |
-| ./contracts/src/Interfaces/IAddressesRegistryWhitelist.sol |
-| ./contracts/src/Interfaces/IBoldRewardsReceiver.sol |
-| ./contracts/src/Interfaces/IBoldToken.sol |
-| ./contracts/src/Interfaces/IBorrowerOperations.sol |
-| ./contracts/src/Interfaces/ICollSurplusPool.sol |
-| ./contracts/src/Interfaces/ICollateralRegistry.sol |
-| ./contracts/src/Interfaces/ICommunityIssuance.sol |
-| ./contracts/src/Interfaces/IDefaultPool.sol |
-| ./contracts/src/Interfaces/IHintHelpers.sol |
-| ./contracts/src/Interfaces/IInterestRouter.sol |
-| ./contracts/src/Interfaces/ILQTYStaking.sol |
-| ./contracts/src/Interfaces/ILQTYToken.sol |
-| ./contracts/src/Interfaces/ILiquityBase.sol |
-| ./contracts/src/Interfaces/IMainnetPriceFeed.sol |
-| ./contracts/src/Interfaces/IMultiTroveGetter.sol |
-| ./contracts/src/Interfaces/IOwned.sol |
-| ./contracts/src/Interfaces/IPriceFeed.sol |
-| ./contracts/src/Interfaces/IRETHPriceFeed.sol |
-| ./contracts/src/Interfaces/IRETHToken.sol |
-| ./contracts/src/Interfaces/ISortedTroves.sol |
-| ./contracts/src/Interfaces/IStabilityPool.sol |
-| ./contracts/src/Interfaces/IStabilityPoolEvents.sol |
-| ./contracts/src/Interfaces/ITokenWrapper.sol |
-| ./contracts/src/Interfaces/ITroveEvents.sol |
-| ./contracts/src/Interfaces/ITroveManager.sol |
-| ./contracts/src/Interfaces/ITroveNFT.sol |
-| ./contracts/src/Interfaces/IWETH.sol |
-| ./contracts/src/Interfaces/IWSTETH.sol |
-| ./contracts/src/Interfaces/IWSTETHPriceFeed.sol |
-| ./contracts/src/Interfaces/IWhitelist.sol |
-| ./contracts/src/MultiTroveGetter.sol |
-| ./contracts/src/NFTMetadata/MetadataNFT.sol |
-| ./contracts/src/NFTMetadata/utils/FixedAssets.sol |
-| ./contracts/src/NFTMetadata/utils/JSON.sol |
-| ./contracts/src/NFTMetadata/utils/SVG.sol |
-| ./contracts/src/NFTMetadata/utils/Utils.sol |
-| ./contracts/src/NFTMetadata/utils/baseSVG.sol |
-| ./contracts/src/NFTMetadata/utils/bauhaus.sol |
-| ./contracts/src/PriceFeeds/CompositePriceFeed.sol |
-| ./contracts/src/PriceFeeds/MainnetPriceFeedBase.sol |
-| ./contracts/src/PriceFeeds/RETHPriceFeed.sol |
-| ./contracts/src/PriceFeeds/WETHPriceFeed.sol |
-| ./contracts/src/PriceFeeds/WSTETHPriceFeed.sol |
-| ./contracts/src/SortedTroves.sol |
-| ./contracts/src/TroveNFT.sol |
-| ./contracts/src/Types/BatchId.sol |
-| ./contracts/src/Types/LatestBatchData.sol |
-| ./contracts/src/Types/LatestTroveData.sol |
-| ./contracts/src/Types/TroveChange.sol |
-| ./contracts/src/Types/TroveId.sol |
-| ./contracts/src/Zappers/BaseTokenZapper.sol |
-| ./contracts/src/Zappers/BaseZapper.sol |
-| ./contracts/src/Zappers/GasCompZapper.sol |
-| ./contracts/src/Zappers/Interfaces/IExchange.sol |
-| ./contracts/src/Zappers/Interfaces/IExchangeHelpers.sol |
-| ./contracts/src/Zappers/Interfaces/IFlashLoanProvider.sol |
-| ./contracts/src/Zappers/Interfaces/IFlashLoanReceiver.sol |
-| ./contracts/src/Zappers/Interfaces/ILeverageZapper.sol |
-| ./contracts/src/Zappers/Interfaces/ITokenZapper.sol |
-| ./contracts/src/Zappers/Interfaces/IZapper.sol |
-| ./contracts/src/Zappers/LeftoversSweep.sol |
-| ./contracts/src/Zappers/LeverageLSTZapper.sol |
-| ./contracts/src/Zappers/LeverageWETHZapper.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/Curve/ICurveFactory.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/Curve/ICurvePool.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/Curve/ICurveStableswapNGFactory.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/Curve/ICurveStableswapNGPool.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/CurveExchange.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/HybridCurveUniV3Exchange.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/HybridCurveUniV3ExchangeHelpers.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/UniV3Exchange.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/UniswapV3/INonfungiblePositionManager.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/UniswapV3/IPoolInitializer.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/UniswapV3/IQuoterV2.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/UniswapV3/ISwapRouter.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/UniswapV3/IUniswapV3Factory.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/UniswapV3/IUniswapV3Pool.sol |
-| ./contracts/src/Zappers/Modules/Exchanges/UniswapV3/UniPriceConverter.sol |
-| ./contracts/src/Zappers/Modules/FlashLoans/Balancer/vault/IFlashLoanRecipient.sol |
-| ./contracts/src/Zappers/Modules/FlashLoans/Balancer/vault/IVault.sol |
-| ./contracts/src/Zappers/Modules/FlashLoans/BalancerFlashLoan.sol |
-| ./contracts/src/Zappers/TokenZapper.sol |
-| ./contracts/src/Zappers/WETHZapper.sol |
-| ./contracts/test/AddressesRegistry.t.sol |
-| ./contracts/test/AnchoredInvariantsTest.t.sol |
-| ./contracts/test/AnchoredSPInvariantsTest.t.sol |
-| ./contracts/test/BoldToken.t.sol |
-| ./contracts/test/E2E.t.sol |
-| ./contracts/test/HintHelpers.t.sol |
-| ./contracts/test/Interfaces/Curve/ICurveStableSwapFactoryNG.sol |
-| ./contracts/test/Interfaces/Curve/ICurveStableSwapNG.sol |
-| ./contracts/test/Interfaces/Curve/ILiquidityGaugeV6.sol |
-| ./contracts/test/Interfaces/LiquityV1/IBorrowerOperationsV1.sol |
-| ./contracts/test/Interfaces/LiquityV1/IPriceFeedV1.sol |
-| ./contracts/test/Interfaces/LiquityV1/ISortedTrovesV1.sol |
-| ./contracts/test/Interfaces/LiquityV1/ITroveManagerV1.sol |
-| ./contracts/test/Invariants.t.sol |
-| ./contracts/test/OracleMainnet.t.sol |
-| ./contracts/test/SPInvariants.t.sol |
-| ./contracts/test/SortedTroves.t.sol |
-| ./contracts/test/TestContracts/Accounts.sol |
-| ./contracts/test/TestContracts/AddRemoveManagersTester.sol |
-| ./contracts/test/TestContracts/Assertions.sol |
-| ./contracts/test/TestContracts/BaseHandler.sol |
-| ./contracts/test/TestContracts/BaseInvariantTest.sol |
-| ./contracts/test/TestContracts/BaseMultiCollateralTest.sol |
-| ./contracts/test/TestContracts/BaseTest.sol |
-| ./contracts/test/TestContracts/BoldTokenTester.sol |
-| ./contracts/test/TestContracts/BorrowerOperationsTester.t.sol |
-| ./contracts/test/TestContracts/ChainlinkOracleMock.sol |
-| ./contracts/test/TestContracts/CollateralRegistryTester.sol |
-| ./contracts/test/TestContracts/CommunityIssuanceMock.sol |
-| ./contracts/test/TestContracts/Deployment.t.sol |
-| ./contracts/test/TestContracts/DevTestSetup.sol |
-| ./contracts/test/TestContracts/ERC20Faucet.sol |
-| ./contracts/test/TestContracts/ERC20MinterMock.sol |
-| ./contracts/test/TestContracts/GasGuzzlerOracle.sol |
-| ./contracts/test/TestContracts/GasGuzzlerToken.sol |
-| ./contracts/test/TestContracts/Interfaces/IBorrowerOperationsTester.sol |
-| ./contracts/test/TestContracts/Interfaces/IPriceFeedMock.sol |
-| ./contracts/test/TestContracts/Interfaces/IPriceFeedTestnet.sol |
-| ./contracts/test/TestContracts/Interfaces/ITroveManagerTester.sol |
-| ./contracts/test/TestContracts/InvariantsTestHandler.t.sol |
-| ./contracts/test/TestContracts/LQTYStakingMock.sol |
-| ./contracts/test/TestContracts/LQTYTokenMock.sol |
-| ./contracts/test/TestContracts/LiquityMathTester.sol |
-| ./contracts/test/TestContracts/MetadataDeployment.sol |
-| ./contracts/test/TestContracts/MockInterestRouter.sol |
-| ./contracts/test/TestContracts/NonPayableSwitch.sol |
-| ./contracts/test/TestContracts/PriceFeedMock.sol |
-| ./contracts/test/TestContracts/PriceFeedTestnet.sol |
-| ./contracts/test/TestContracts/RETHTokenMock.sol |
-| ./contracts/test/TestContracts/SPInvariantsTestHandler.t.sol |
-| ./contracts/test/TestContracts/SortedTrovesTester.sol |
-| ./contracts/test/TestContracts/TroveManagerTester.t.sol |
-| ./contracts/test/TestContracts/WETH.sol |
-| ./contracts/test/TestContracts/WETHTester.sol |
-| ./contracts/test/TestContracts/WSTETHTokenMock.sol |
-| ./contracts/test/TestContracts/WhitelistTestSetup.sol |
-| ./contracts/test/TokenWrapper.t.sol |
-| ./contracts/test/Utils/BatchIdSet.sol |
-| ./contracts/test/Utils/EnumerableSet.sol |
-| ./contracts/test/Utils/Logging.sol |
-| ./contracts/test/Utils/Math.sol |
-| ./contracts/test/Utils/StringEquality.sol |
-| ./contracts/test/Utils/StringFormatting.sol |
-| ./contracts/test/Utils/Trove.sol |
-| ./contracts/test/Utils/TroveId.sol |
-| ./contracts/test/Utils/UniPriceConverterLog.sol |
-| ./contracts/test/Utils/UseDeployment.sol |
-| ./contracts/test/basicOps.t.sol |
-| ./contracts/test/basicOpsWhitelist.t.sol |
-| ./contracts/test/batchManagementFee.t.sol |
-| ./contracts/test/borrowerOperations.t.sol |
-| ./contracts/test/borrowerOperationsOnBehalfTroveManagament.t.sol |
-| ./contracts/test/collateralRegistry.t.sol |
-| ./contracts/test/criticalThreshold.t.sol |
-| ./contracts/test/deployment.t.sol |
-| ./contracts/test/events.t.sol |
-| ./contracts/test/interestBatchManagement.t.sol |
-| ./contracts/test/interestIndividualDelegation.t.sol |
-| ./contracts/test/interestRateAggregate.t.sol |
-| ./contracts/test/interestRateBasic.t.sol |
-| ./contracts/test/liquidationCosts.t.sol |
-| ./contracts/test/liquidations.t.sol |
-| ./contracts/test/liquidationsLST.t.sol |
-| ./contracts/test/multiCollateralWhitelist.t.sol |
-| ./contracts/test/multicollateral.t.sol |
-| ./contracts/test/rebasingBatchShares.t.sol |
-| ./contracts/test/redemptions.t.sol |
-| ./contracts/test/shutdown.t.sol |
-| ./contracts/test/stabilityPool.t.sol |
-| ./contracts/test/tokenZapper.t.sol |
-| ./contracts/test/troveManager.t.sol |
-| ./contracts/test/troveNFT.t.sol |
-| ./contracts/test/whitelist.t.sol |
-| ./contracts/test/whitelistRedemptions.t.sol |
-| ./contracts/test/zapperGasComp.t.sol |
-| ./contracts/test/zapperLeverage.t.sol |
-| ./contracts/test/zapperWETH.t.sol |
-| Totals: 217 |
-
+| Filename                           | Lines   | Functions |
+|-------------------------------------|---------|-----------|
+| AddressesRegistry.sol               | 96.0% (101) | 100% (7)   | 
+| BorrowerOperations.sol              | 98.4% (621) | 97.3% (74) |
+| CollateralRegistry.sol              | 99.2% (126) | 95.0% (20) |
+| Dependencies/LiquityBase.sol        | 100% (36)  | 100% (9)   | 
+| StabilityPool.sol                   | 99.5% (196) | 100% (28)  | 
+| TroveManager.sol                    | 99.7% (672) | 100% (63)  |
+| **Total:**                          | **99.0% (1752)** | **98.5% (201)** |
 
 ## Miscellaneous
 Employees of BitVault and employees' family members are ineligible to participate in this audit.
 
 Code4rena's rules cannot be overridden by the contents of this README. In case of doubt, please check with C4 staff.
-
-
-
