@@ -154,10 +154,6 @@ The code of the BitVault project is a Liquity V2 fork introducing the following 
 | Upgradeability (e.g. Uniswap gets upgraded)               |   No  |
 
 
-### EIP compliance checklist
-
-N/A
-
 
 
 # Additional context
